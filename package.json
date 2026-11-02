@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "tsc --noEmit",
     "test": "vitest run"
   },
   "repository": {

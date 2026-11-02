@@ -24,3 +24,39 @@ describe("crearArchivo", () => {
     expect(disco.bloques).toEqual([null, null, null, null]);
   });
 });
+
+describe("eliminarArchivo", () => {
+  test("libera los bloques del archivo y borra su inodo", () => {
+    const disco = new SimuladorDisco(4);
+    disco.crearArchivo("a.txt", 3);
+
+    expect(disco.eliminarArchivo("a.txt")).toBe(true);
+    expect(disco.bloques).toEqual([null, null, null, null]);
+    expect(disco.getInodo("a.txt")).toBeUndefined();
+  });
+
+  test("avisa si el archivo no existe", () => {
+    const disco = new SimuladorDisco(4);
+
+    expect(disco.eliminarArchivo("fantasma.txt")).toBe(false);
+  });
+
+  test("reutiliza bloques libres aunque estén separados", () => {
+    const disco = new SimuladorDisco(6);
+    disco.crearArchivo("a.txt", 2); // bloques 0 y 1
+    disco.crearArchivo("b.txt", 2); // bloques 2 y 3
+    disco.eliminarArchivo("a.txt"); // quedan libres 0, 1, 4 y 5
+
+    expect(disco.crearArchivo("c.txt", 3)).toBe(true);
+    expect(disco.getInodo("c.txt")?.bloques).toEqual([0, 1, 4]); // no hace falta que estén seguidos
+  });
+});
+
+describe("generarMapa", () => {
+  test("muestra O para ocupados y L para libres", () => {
+    const disco = new SimuladorDisco(4);
+    disco.crearArchivo("a.txt", 2);
+
+    expect(disco.generarMapa()).toBe("[O][O][L][L]");
+  });
+});

@@ -35,6 +35,27 @@ export class SimuladorDisco {
     return true;
   }
 
+  eliminarArchivo(nombre: string): boolean {
+    const inodo = this._tablaInodos.get(nombre);    //busca el inodo por nombre en la tabla
+    if (inodo === undefined) {
+      console.log(`Error: Archivo '${nombre}' no encontrado.`);
+      return false;
+    }
+
+    inodo.bloques.forEach((indice) => (this._bloques[indice] = null));     //el inodo le dice al disco qué bloques liberar
+    this._tablaInodos.delete(nombre);
+    console.log(`Archivo '${nombre}' eliminado correctamente.`);
+    return true;
+  }
+
+  generarMapa(): string {
+    return this._bloques.map((bloque) => (bloque === null ? "[L]" : "[O]")).join("");   //cada bloque se vuelve [L] o [O] y se pegan
+  }
+
+  mostrarMapa(): void {
+    console.log("\nMapa del Disco:", this.generarMapa());
+  }
+
   get bloques(): (string | null)[] {
     return [...this._bloques];      //copia del mapa, solo lectura
   }
