@@ -57,6 +57,19 @@ export class SimuladorDisco {
     return this._bloques.map((bloque) => (bloque === null ? "[L]" : "[O]")).join("");   //cada bloque se vuelve [L] o [O] y se pegan
   }
 
+  generarTablaInodos(): string {
+    if (this._tablaInodos.size === 0) {
+      return "No hay archivos en el disco.";
+    }
+    return [...this._tablaInodos.values()]
+      .map((inodo) => `${inodo.nombre} | ${inodo.tamBloques} bloques | [${inodo.bloques.join(", ")}]`)
+      .join("\n");
+  }
+
+  mostrarTablaInodos(): void {
+    console.log("\nTabla de Inodos:", this.generarTablaInodos());
+  }
+
   mostrarMapa(): void {
     console.log("\nMapa del Disco:", this.generarMapa());
   }

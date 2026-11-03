@@ -68,3 +68,21 @@ describe("generarMapa", () => {
     expect(disco.generarMapa()).toBe("[O][O][L][L]");
   });
 });
+
+describe("generarTablaInodos", () => {
+  test("muestra cada archivo con su tamaño y sus bloques ", () => {
+    const disco = new SimuladorDisco(6);
+    disco.crearArchivo("a.txt", 2); // bloques 0 y 1
+    disco.crearArchivo("b.txt", 3); // bloques 2, 3 y 4
+
+    expect(disco.generarTablaInodos()).toBe(
+      "a.txt | 2 bloques | [0, 1]\nb.txt | 3 bloques | [2, 3, 4]"
+    );
+  });
+
+  test("muestra un mensaje si no hay archivos", () => {
+    const disco = new SimuladorDisco(4);
+
+    expect(disco.generarTablaInodos()).toBe("No hay archivos en el disco.");
+  });
+});
