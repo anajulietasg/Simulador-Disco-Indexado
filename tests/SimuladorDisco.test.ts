@@ -86,3 +86,21 @@ describe("generarTablaInodos", () => {
     expect(disco.generarTablaInodos()).toBe("No hay archivos en el disco.");
   });
 });
+
+describe("métricas", () => {
+  test("calcula los bloques totales, ocupados y libres", () => {
+    const disco = new SimuladorDisco(8);
+    disco.crearArchivo("a.txt", 3);
+
+    expect(disco.bloquesOcupados).toBe(3);
+    expect(disco.bloquesLibres).toBe(5);
+  });
+
+  test("calcula el porcentaje de ocupación", () => {
+    const disco = new SimuladorDisco(8);
+    disco.crearArchivo("a.txt", 2);
+    disco.crearArchivo("b.txt", 2);
+
+    expect(disco.porcentajeOcupacion).toBe(50);
+  });
+});

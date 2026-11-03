@@ -78,6 +78,22 @@ export class SimuladorDisco {
     return [...this._bloques];      //copia del mapa, solo lectura
   }
 
+  get bloquesTotales(): number {
+    return this._bloques.length;
+  }
+
+  get bloquesLibres(): number {
+    return this._bloques.filter((bloque) => bloque === null).length;
+  }
+
+  get bloquesOcupados(): number {
+    return this._bloques.filter((bloque) => bloque !== null).length;
+  }
+
+  get porcentajeOcupacion(): number {
+    return (this.bloquesOcupados / this.bloquesTotales) * 100;
+  }
+
   getInodo(nombre: string): Inodo | undefined {
     return this._tablaInodos.get(nombre);    //metodo, devuelve undefined si no existe
   }
