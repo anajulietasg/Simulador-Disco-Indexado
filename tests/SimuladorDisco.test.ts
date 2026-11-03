@@ -23,6 +23,14 @@ describe("crearArchivo", () => {
     expect(disco.crearArchivo("grande.txt", 5)).toBe(false);
     expect(disco.bloques).toEqual([null, null, null, null]);
   });
+
+  test("rechaza un tamaño de 0 o negativo", () => {
+    const disco = new SimuladorDisco(4);
+
+    expect(disco.crearArchivo("a.txt", 0)).toBe(false);
+    expect(disco.crearArchivo("b.txt", -1)).toBe(false);
+    expect(disco.bloques).toEqual([null, null, null, null]);
+  });
 });
 
 describe("eliminarArchivo", () => {

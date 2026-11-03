@@ -15,6 +15,11 @@ export class SimuladorDisco {
       return false;
     }
 
+    if (tamBloques <= 0 ) {     //valida el tamaño 
+      console.log("Error: Tamaño de archivo inválido");
+      return false;
+    }
+
     const bloquesLibres = this._bloques
       .map((bloque, indice) => (bloque === null ? indice : -1))    //si esta libre guarda su numero, si no un -1
       .filter((indice) => indice !== -1);       //se queda solo con los numeros libres
