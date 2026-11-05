@@ -79,15 +79,15 @@ export class SimuladorDisco {
   }
 
   mostrarMapa(): void {
-    console.log("\nMapa del Disco:", this.generarMapa());
+    console.log("\nMapa del Disco:\n" + this.generarMapa());
   }
 
   mostrarTablaInodos(): void {
-    console.log("\nTabla de Inodos:", this.generarTablaInodos());
+    console.log("\nTabla de Inodos:\n" + this.generarTablaInodos());
   }
 
   mostrarMetricas(): void {
-    console.log("\nMétricas del Disco:", this.generarMetricas());
+    console.log("\nMétricas del Disco:\n" + this.generarMetricas());
   }
 
   get bloques(): (string | null)[] {
