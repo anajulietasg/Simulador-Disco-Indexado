@@ -6,7 +6,7 @@ describe("crearArchivo", () => {
     const disco = new SimuladorDisco(8);
 
     expect(disco.crearArchivo("a.txt", 3)).toBe(true);
-    expect(disco.getInodo("a.txt")?.bloques).toEqual([0, 1, 2]); // ?. porque getInodo puede devolver undefined
+    expect(disco.buscarInodo("a.txt")?.bloques).toEqual([0, 1, 2]);    // ?. porque buscarInodo puede devolver undefined
     expect(disco.bloques.slice(0, 3)).toEqual(["a.txt", "a.txt", "a.txt"]);
   });
 
@@ -40,7 +40,7 @@ describe("eliminarArchivo", () => {
 
     expect(disco.eliminarArchivo("a.txt")).toBe(true);
     expect(disco.bloques).toEqual([null, null, null, null]);
-    expect(disco.getInodo("a.txt")).toBeUndefined();
+    expect(disco.buscarInodo("a.txt")).toBeUndefined();
   });
 
   test("avisa si el archivo no existe", () => {
@@ -56,7 +56,7 @@ describe("eliminarArchivo", () => {
     disco.eliminarArchivo("a.txt"); // quedan libres 0, 1, 4 y 5
 
     expect(disco.crearArchivo("c.txt", 3)).toBe(true);
-    expect(disco.getInodo("c.txt")?.bloques).toEqual([0, 1, 4]); // no hace falta que estén seguidos
+    expect(disco.buscarInodo("c.txt")?.bloques).toEqual([0, 1, 4]); // no hace falta que estén seguidos
   });
 });
 
@@ -102,5 +102,33 @@ describe("métricas", () => {
     disco.crearArchivo("b.txt", 2);
 
     expect(disco.porcentajeOcupacion).toBe(50);
+  });
+});
+
+describe("fragmentación", () => {
+  test("calcula el mayor hueco y la fragmentación con huecos separados", () => {
+    const disco = new SimuladorDisco(8);
+    disco.crearArchivo("a.txt", 2);
+    disco.crearArchivo("b.txt", 2);
+    disco.crearArchivo("c.txt", 2);
+    disco.eliminarArchivo("a.txt"); // quedan libres 0, 1, 6 y 7
+
+    expect(disco.mayorHuecoContiguo).toBe(2);
+    expect(disco.fragmentacionExterna).toBe(50);
+  });
+
+  test("no hay fragmentación si el disco está vacío", () => {
+    const disco = new SimuladorDisco(8);
+
+    expect(disco.mayorHuecoContiguo).toBe(8);
+    expect(disco.fragmentacionExterna).toBe(0);
+  });
+
+  test("no hay fragmentación si el disco está lleno", () => {
+    const disco = new SimuladorDisco(4);
+    disco.crearArchivo("a.txt", 4);
+
+    expect(disco.mayorHuecoContiguo).toBe(0);
+    expect(disco.fragmentacionExterna).toBe(0);
   });
 });

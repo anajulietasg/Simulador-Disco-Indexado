@@ -16,7 +16,7 @@ export class SimuladorDisco {
     }
 
     if (tamBloques <= 0 ) {     //valida el tamaño 
-      console.log("Error: Tamaño de archivo inválido");
+      console.log("Error: Tamaño de archivo inválido.");
       return false;
     }
 
@@ -66,12 +66,12 @@ export class SimuladorDisco {
       .join("\n");
   }
 
-  mostrarTablaInodos(): void {
-    console.log("\nTabla de Inodos:", this.generarTablaInodos());
-  }
-
   mostrarMapa(): void {
     console.log("\nMapa del Disco:", this.generarMapa());
+  }
+
+  mostrarTablaInodos(): void {
+    console.log("\nTabla de Inodos:", this.generarTablaInodos());
   }
 
   get bloques(): (string | null)[] {
@@ -94,7 +94,31 @@ export class SimuladorDisco {
     return (this.bloquesOcupados / this.bloquesTotales) * 100;
   }
 
-  getInodo(nombre: string): Inodo | undefined {
+  get mayorHuecoContiguo(): number {
+    let actual = 0;
+    let mayor = 0;
+
+    this._bloques.forEach((bloque) => {
+      if (bloque === null) {
+        actual++;
+        if (actual > mayor) {
+          mayor = actual;
+        }
+      } else {
+        actual = 0;
+      }
+    });
+    return mayor;
+  }
+
+  get fragmentacionExterna(): number {
+    if (this.bloquesLibres === 0) {     //si no hay libres devuelve 0 para no dividir por 0
+      return 0;
+    }
+    return (1 - this.mayorHuecoContiguo / this.bloquesLibres) * 100;
+  }
+
+  buscarInodo(nombre: string): Inodo | undefined {
     return this._tablaInodos.get(nombre);    //metodo, devuelve undefined si no existe
   }
 }
