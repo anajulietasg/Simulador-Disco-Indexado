@@ -132,3 +132,20 @@ describe("fragmentación", () => {
     expect(disco.fragmentacionExterna).toBe(0);
   });
 });
+
+describe("generarMetricas", () => {
+  test("muestra todas las métricas del disco", () => {
+    const disco = new SimuladorDisco(8);
+    disco.crearArchivo("a.txt", 2);
+    disco.crearArchivo("b.txt", 2);
+    disco.crearArchivo("c.txt", 2);
+    disco.eliminarArchivo("a.txt"); // quedan 4 libres en dos huecos de 2
+
+    const metricas = disco.generarMetricas();
+
+    expect(metricas).toContain("Bloques libres: 4");
+    expect(metricas).toContain("Cantidad de archivos: 2");
+    expect(metricas).toContain("Mayor hueco contiguo: 2");
+    expect(metricas).toContain("Fragmentación externa: 50%");
+  });
+});

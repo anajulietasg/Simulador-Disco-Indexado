@@ -66,12 +66,28 @@ export class SimuladorDisco {
       .join("\n");
   }
 
+  generarMetricas(): string {
+    return [
+      `Bloques totales: ${this.bloquesTotales}`,
+      `Bloques ocupados: ${this.bloquesOcupados}`,
+      `Bloques libres: ${this.bloquesLibres}`,
+      `Porcentaje de ocupación: ${this.porcentajeOcupacion}%`,
+      `Cantidad de archivos: ${this._tablaInodos.size}`,
+      `Mayor hueco contiguo: ${this.mayorHuecoContiguo}`,
+      `Fragmentación externa: ${this.fragmentacionExterna}%`,
+    ].join("\n");
+  }
+
   mostrarMapa(): void {
     console.log("\nMapa del Disco:", this.generarMapa());
   }
 
   mostrarTablaInodos(): void {
     console.log("\nTabla de Inodos:", this.generarTablaInodos());
+  }
+
+  mostrarMetricas(): void {
+    console.log("\nMétricas del Disco:", this.generarMetricas());
   }
 
   get bloques(): (string | null)[] {
