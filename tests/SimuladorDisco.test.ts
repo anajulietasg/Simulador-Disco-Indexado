@@ -31,6 +31,14 @@ describe("crearArchivo", () => {
     expect(disco.crearArchivo("b.txt", -1)).toBe(false);
     expect(disco.bloques).toEqual([null, null, null, null]);
   });
+
+  test("rechaza tamaños que no son números enteros", () => {
+    const disco = new SimuladorDisco(4);
+
+    expect(disco.crearArchivo("a.txt", 2.5)).toBe(false);
+    expect(disco.crearArchivo("b.txt", NaN)).toBe(false);
+    expect(disco.bloques).toEqual([null, null, null, null]);
+  });
 });
 
 describe("eliminarArchivo", () => {

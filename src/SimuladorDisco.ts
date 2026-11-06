@@ -15,8 +15,8 @@ export class SimuladorDisco {
       return false;
     }
 
-    if (tamBloques <= 0 ) {     //valida el tamaño 
-      console.log("Error: Tamaño de archivo inválido.");
+    if (tamBloques <= 0 || !Number.isInteger(tamBloques)) {     //valida el tamaño 
+      console.log("Error: El tamaño del archivo debe ser un número entero mayor a 0.");
       return false;
     }
 
